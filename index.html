@@ -135,7 +135,7 @@ setInterval(crearCorazon, 300);
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 
-/* Mensajes NO */
+/* Mensajes */
 const mensajes = [
     "¿Segura? 😳",
     "No tan rápido 😏",
@@ -146,19 +146,20 @@ const mensajes = [
     "Vamos di que sí 😍"
 ];
 
-/* Gatitos sincronizados */
+/* Imágenes */
 const gatitos = [
-    "./photos/sorprendido.jpg",
-    "./photos/enojado.jpg",
-    "./photos/sufriendo.jpg",
-    "./photos/llorando.jpg",
-    "./photos/cuchillo.jpg",
-    "./photos/bomba.jpg",
-    "./photos/orejitas.jpg"
+    "photos/sorprendido.jpg",
+    "photos/enojado.jpg",
+    "photos/sufriendo.jpg",
+    "photos/llorando.jpg",
+    "photos/cuchillo.jpg",
+    "photos/bomba.jpg",
+    "photos/orejitas.jpg"
 ];
 
 let contador = 0;
 let escala = 1;
+let gatitoActual = null;
 
 /* Aceptar */
 yesBtn.onclick = () => {
@@ -181,16 +182,19 @@ yesBtn.onclick = () => {
     `;
 };
 
-/* Eliminar gatitos */
-function limpiarGatitos() {
-    document.querySelectorAll(".kitten").forEach(g => g.remove());
+/* Limpiar imagen anterior */
+function limpiarGatito() {
+    if (gatitoActual) {
+        gatitoActual.remove();
+        gatitoActual = null;
+    }
 }
 
 /* Botón No */
 function moverNo() {
 
     if (contador >= mensajes.length) {
-        limpiarGatitos();
+        limpiarGatito();
         noBtn.remove();
         return;
     }
@@ -203,19 +207,19 @@ function moverNo() {
 
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
-
     noBtn.textContent = mensajes[contador];
 
     escala -= 0.08;
     if (escala < 0.4) escala = 0.4;
     noBtn.style.transform = `scale(${escala})`;
 
+    limpiarGatito();
     mostrarGatito(gatitos[contador]);
 
     contador++;
 }
 
-/* Mostrar gatito */
+/* Mostrar SOLO un gatito */
 function mostrarGatito(src) {
     const img = document.createElement("img");
     img.src = src;
@@ -223,11 +227,13 @@ function mostrarGatito(src) {
     img.style.left = Math.random() * (window.innerWidth - 160) + "px";
     img.style.top = Math.random() * (window.innerHeight - 160) + "px";
     document.body.appendChild(img);
+    gatitoActual = img;
 }
 
-noBtn.addEventListener("mouseover", moverNo);
-noBtn.addEventListener("click", moverNo);
+/* UN SOLO EVENTO */
+noBtn.addEventListener("pointerenter", moverNo);
 </script>
+
 
 </body>
 </html>
