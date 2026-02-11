@@ -14,7 +14,7 @@ body {
     overflow: hidden;
 }
 
-/* Corazones */
+/* Lluvia de corazones */
 .heart {
     position: fixed;
     top: -10px;
@@ -89,7 +89,7 @@ body {
 /* Gatitos */
 .kitten {
     position: fixed;
-    width: 120px;
+    width: 160px;
     border-radius: 15px;
     z-index: 4;
     animation: pop 0.4s ease;
@@ -106,8 +106,7 @@ body {
 <div class="container">
     <div class="card">
 
-        <!-- FOTO -->
-        <div class="photo" style="background-image: url('besito.gif');"></div>
+        <div class="photo" style="background-image: url('foto.jpg');"></div>
 
         <h2>💖 ¿Quieres ser mi San Valentín? 💖</h2>
 
@@ -119,7 +118,7 @@ body {
 <button id="noBtn">No 😢</button>
 
 <script>
-/* Corazones */
+/* Lluvia de corazones */
 function crearCorazon() {
     const heart = document.createElement("div");
     heart.className = "heart";
@@ -136,7 +135,7 @@ setInterval(crearCorazon, 300);
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 
-/* Mensajes del NO */
+/* Mensajes NO */
 const mensajes = [
     "¿Segura? 😳",
     "No tan rápido 😏",
@@ -150,19 +149,24 @@ const mensajes = [
     "El destino lo quiere ✨"
 ];
 
-/* Gatitos */
+/* Gatitos sincronizados */
 const gatitos = [
-    "https://placekitten.com/200/200",
-    "https://placekitten.com/220/200",
-    "https://placekitten.com/210/230",
-    "https://placekitten.com/240/220",
-    "https://placekitten.com/230/210"
+    "gatitos/gato1.gif",
+    "gatitos/gato2.gif",
+    "gatitos/gato3.gif",
+    "gatitos/gato4.gif",
+    "gatitos/gato5.gif",
+    "gatitos/gato6.gif",
+    "gatitos/gato7.gif",
+    "gatitos/gato8.gif",
+    "gatitos/gato9.gif",
+    "gatitos/gato10.gif"
 ];
 
 let contador = 0;
 let escala = 1;
 
-/* Sí */
+/* Aceptar */
 yesBtn.onclick = () => {
     document.body.innerHTML = `
         <div style="
@@ -183,11 +187,16 @@ yesBtn.onclick = () => {
     `;
 };
 
-/* No */
+/* Eliminar gatitos */
+function limpiarGatitos() {
+    document.querySelectorAll(".kitten").forEach(g => g.remove());
+}
+
+/* Botón No */
 function moverNo() {
 
-    /* Si ya no hay mensajes → desaparece */
     if (contador >= mensajes.length) {
+        limpiarGatitos();
         noBtn.remove();
         return;
     }
@@ -200,30 +209,30 @@ function moverNo() {
 
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
-    noBtn.textContent = mensajes[contador];
 
-    contador++;
+    noBtn.textContent = mensajes[contador];
 
     escala -= 0.08;
     if (escala < 0.4) escala = 0.4;
     noBtn.style.transform = `scale(${escala})`;
 
-    mostrarGatito();
+    mostrarGatito(gatitos[contador]);
+
+    contador++;
 }
 
-/* Gatito */
-function mostrarGatito() {
+/* Mostrar gatito */
+function mostrarGatito(src) {
     const img = document.createElement("img");
-    img.src = gatitos[Math.floor(Math.random() * gatitos.length)];
+    img.src = src;
     img.className = "kitten";
-    img.style.left = Math.random() * (window.innerWidth - 120) + "px";
-    img.style.top = Math.random() * (window.innerHeight - 120) + "px";
+    img.style.left = Math.random() * (window.innerWidth - 160) + "px";
+    img.style.top = Math.random() * (window.innerHeight - 160) + "px";
     document.body.appendChild(img);
-    setTimeout(() => img.remove(), 2000);
 }
 
 noBtn.addEventListener("mouseover", moverNo);
-noBtn.addEventListener("click", moverNo); // móvil
+noBtn.addEventListener("click", moverNo);
 </script>
 
 </body>
