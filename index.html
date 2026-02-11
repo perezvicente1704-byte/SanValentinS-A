@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Invitación Especial 💘</title>
+<title>San Valentín 💘</title>
 
 <style>
 body {
@@ -14,7 +14,7 @@ body {
     overflow: hidden;
 }
 
-/* Lluvia de corazones */
+/* Corazones */
 .heart {
     position: fixed;
     top: -10px;
@@ -22,22 +22,18 @@ body {
     animation: fall linear forwards;
     pointer-events: none;
 }
-
 @keyframes fall {
-    to {
-        transform: translateY(110vh);
-        opacity: 0;
-    }
+    to { transform: translateY(110vh); opacity: 0; }
 }
 
-/* Tarjeta */
+/* Contenido */
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    position: relative;
     z-index: 2;
+    position: relative;
 }
 
 .card {
@@ -48,9 +44,10 @@ body {
     width: 90%;
     max-width: 400px;
     text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-/* Foto */
+/* Foto principal */
 .photo {
     width: 100%;
     height: 200px;
@@ -73,7 +70,7 @@ body {
     color: #ff4d6d;
 }
 
-/* Botón No flotante */
+/* Botón No */
 #noBtn {
     position: fixed;
     padding: 12px 25px;
@@ -88,6 +85,19 @@ body {
     left: 60%;
     transition: 0.15s;
 }
+
+/* Gatitos */
+.kitten {
+    position: fixed;
+    width: 120px;
+    border-radius: 15px;
+    z-index: 4;
+    animation: pop 0.4s ease;
+}
+@keyframes pop {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
 </style>
 </head>
 
@@ -96,17 +106,22 @@ body {
 <div class="container">
     <div class="card">
 
+        <!-- FOTO PRINCIPAL -->
         <div class="photo" style="background-image: url('foto.jpg');"></div>
 
-        <h2>💖 ¿Quieres ser mi cita este 13? 💖</h2>
-        <p>Prometo que será una tarde especial ✨</p>
+        <h2>💖 ¿Quieres ser mi San Valentín? 💖</h2>
+
+        <p>
+            Confía en mí, será divertido y delicioso 😏<br>
+            Vamos, atrévete a decir que sí 💕<br>
+            No te arrepentirás ✨
+        </p>
 
         <button id="yesBtn">Sí 💕</button>
 
     </div>
 </div>
 
-<!-- Botón NO fuera de la tarjeta -->
 <button id="noBtn">No 😢</button>
 
 <script>
@@ -127,18 +142,33 @@ setInterval(crearCorazon, 300);
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 
+/* Mensajes del NO */
 const mensajes = [
     "¿Segura? 😳",
-    "Piénsalo 🙈",
-    "No corras 😏",
-    "Habrá postre 🍰",
-    "Habrá sorpresa 🎁",
-    "Di que sí 💖"
+    "No tan rápido 😏",
+    "Piénsalo bien 🙈",
+    "Mira este gatito 🐱",
+    "No seas cruel 😢",
+    "Sabes que quieres 💖",
+    "Última oportunidad 😈",
+    "Te vas a divertir 😉",
+    "Vamos di que sí 😍",
+    "El destino lo quiere ✨"
+];
+
+/* Gatitos virales */
+const gatitos = [
+    "https://placekitten.com/200/200",
+    "https://placekitten.com/220/200",
+    "https://placekitten.com/210/230",
+    "https://placekitten.com/240/220",
+    "https://placekitten.com/230/210"
 ];
 
 let contador = 0;
 let escala = 1;
 
+/* Aceptar */
 yesBtn.onclick = () => {
     document.body.innerHTML = `
         <div style="
@@ -153,31 +183,43 @@ yesBtn.onclick = () => {
             font-size:2em;
             padding:20px;
         ">
-        💕 Ya sabía que aceptarías 💕<br><br>
-        Te espero este 13 a las 6 pm 😘
+        💕 Sabía que aceptarías mi amor 💕<br><br>
+        Te espero a las 6 PM lista 😘
         </div>
     `;
 };
 
+/* Rechazar */
 function moverNo() {
     const bw = noBtn.offsetWidth;
     const bh = noBtn.offsetHeight;
 
-    const maxX = window.innerWidth - bw;
-    const maxY = window.innerHeight - bh;
-
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+    const x = Math.random() * (window.innerWidth - bw);
+    const y = Math.random() * (window.innerHeight - bh);
 
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
-
     noBtn.textContent = mensajes[contador % mensajes.length];
     contador++;
 
     escala -= 0.08;
     if (escala < 0.4) escala = 0.4;
     noBtn.style.transform = `scale(${escala})`;
+
+    mostrarGatito();
+}
+
+/* Gatito sorpresa */
+function mostrarGatito() {
+    const img = document.createElement("img");
+    img.src = gatitos[Math.floor(Math.random() * gatitos.length)];
+    img.className = "kitten";
+
+    img.style.left = Math.random() * (window.innerWidth - 120) + "px";
+    img.style.top = Math.random() * (window.innerHeight - 120) + "px";
+
+    document.body.appendChild(img);
+    setTimeout(() => img.remove(), 2000);
 }
 
 noBtn.addEventListener("mouseover", moverNo);
