@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Invitación Especial 💘</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+    }
+
+    /* Lluvia de corazones */
+    .heart {
+        position: fixed;
+        top: -10px;
+        font-size: 20px;
+        animation: fall linear forwards;
+        color: rgba(255,255,255,0.8);
+        pointer-events: none;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(110vh);
+            opacity: 0;
+        }
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        position: relative;
+        z-index: 2;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 40px;
+        border-radius: 20px;
+        color: white;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .buttons {
+        margin-top: 30px;
+        position: relative;
+        height: 100px;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 1em;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        position: absolute;
+        transition: 0.2s;
+    }
+
+    #yesBtn {
+        background: white;
+        color: #ff4d6d;
+        left: 25%;
+    }
+
+    #noBtn {
+        background: #ff4d6d;
+        color: white;
+        left: 55%;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <h1>💖 ¿Quieres ser mi cita este 13? 💖</h1>
+        <p>Prometo que será una tarde especial ✨</p>
+
+        <div class="buttons">
+            <button id="yesBtn">Sí 💕</button>
+            <button id="noBtn">No 😢</button>
+        </div>
+    </div>
+</div>
+
+<script>
+/* -------- LLUVIA DE CORAZONES -------- */
+function crearCorazon() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.fontSize = Math.random() * 20 + 15 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+setInterval(crearCorazon, 300);
+
+/* -------- BOTONES -------- */
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+
+const mensajes = [
+    "¿Segura? 😳",
+    "Piénsalo bien 🙈",
+    "No te escaparás 😏",
+    "Habrá postre 🍰",
+    "Habrá sorpresa 🎁",
+    "Di que sí 💖"
+];
+
+let contador = 0;
+let escala = 1;
+
+yesBtn.addEventListener("click", () => {
+    document.body.innerHTML = `
+        <div style="
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            background:linear-gradient(135deg,#ff758c,#ff7eb3);
+            color:white;
+            font-family:Arial;
+            text-align:center;
+            font-size:2em;
+            padding:20px;
+        ">
+            💕 Ya sabía que aceptarías 💕<br><br>
+            Te espero este 13 a las 6 pm 😘
+        </div>
+    `;
+});
+
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 60);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    noBtn.textContent = mensajes[contador % mensajes.length];
+    contador++;
+
+    escala -= 0.08;
+    if (escala < 0.4) escala = 0.4;
+    noBtn.style.transform = `scale(${escala})`;
+});
+</script>
+
+</body>
+</html>
